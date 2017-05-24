@@ -1475,6 +1475,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li><a href="#location-tracking"><span class="secno">3.1.1</span> <span class="content">Location Tracking</span></a>
        </ol>
       <li><a href="#permissions"><span class="secno">3.2</span> <span class="content">Permissions</span></a>
+      <li><a href="#private-browsing-mode"><span class="secno">3.3</span> <span class="content">Private Browsing Mode</span></a>
      </ol>
     <li>
      <a href="#api"><span class="secno">4</span> <span class="content">API</span></a>
@@ -1523,7 +1524,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <p> Because this API relates to the ability to do work <a data-link-type="dfn" href="https://wicg.github.io/BackgroundSync/spec/#in-the-background">in the background</a>, which is considered
     a privilege, functionality provided by this API is only available in a <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#secure-context">secure context</a>. </p>
     <p> An <a href="https://github.com/WICG/budget-api/blob/gh-pages/README.md">explainer</a> is
-    available in our <a href="https://github.com/WICG/">GitHub repository</a>. </p>
+    available in our <a href="https://github.com/WICG/budget-api/">GitHub repository</a>. </p>
     <p class="note" role="note"> This specification does not define how user agents establish or store the amount of current <a data-link-type="dfn" href="#budget" id="ref-for-budget-1">budget</a>. It aims to define an API that exposes sufficient information to make the <a data-link-type="dfn" href="#budget" id="ref-for-budget-2">budget</a> useful for authors, while not restricting the implementation details and
     heuristics specific to a user agent. </p>
     <section>
@@ -1617,6 +1618,16 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       lower or eliminate the <a data-link-type="dfn" href="#background-operation-cost" id="ref-for-background-operation-cost-2">background operation cost</a> of such an operation, because the user
       has explicitly allowed the Web Application to engage on their behalf. </p>
     </section>
+    <section>
+     <h3 class="heading settled" data-level="3.3" id="private-browsing-mode"><span class="secno">3.3. </span><span class="content">Private Browsing Mode</span><a class="self-link" href="#private-browsing-mode"></a></h3>
+     <p> When the user agent is being operated in a private browsing mode, <a data-link-type="dfn" href="#budget" id="ref-for-budget-11">budget</a> available in
+      the regular browsing mode SHOULD NOT be considered for the functionality provided by this API.
+      Normal accumulation of <a data-link-type="dfn" href="#budget" id="ref-for-budget-12">budget</a> should otherwise commence. </p>
+     <p> Specifications depending on the Budget API SHOULD match this expectation by not inheriting
+      permissions, state or otherwise from the regular browsing mode in a private browsing mode.
+      This avoids the developer from being able to recognize that the user is in a private browsing
+      mode through the Budget API. </p>
+    </section>
    </section>
    <section>
     <h2 class="heading settled" data-level="4" id="api"><span class="secno">4. </span><span class="content">API</span><a class="self-link" href="#api"></a></h2>
@@ -1660,7 +1671,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        </ol>
      </ol>
      <p> The <code><dfn class="dfn-paneled idl-code" data-dfn-for="BudgetService" data-dfn-type="method" data-export="" id="dom-budgetservice-getbudget" title="getBudget()">getBudget()</dfn></code> method
-      returns a promise that will be resolved with a sequence of <code><code class="idl"><a data-link-type="idl" href="#budgetstate" id="ref-for-budgetstate-2">BudgetState</a></code></code> objects indicating the expected state of the <a data-link-type="dfn" href="#budget" id="ref-for-budget-11">budget</a> at given times in the future. </p>
+      returns a promise that will be resolved with a sequence of <code><code class="idl"><a data-link-type="idl" href="#budgetstate" id="ref-for-budgetstate-2">BudgetState</a></code></code> objects indicating the expected state of the <a data-link-type="dfn" href="#budget" id="ref-for-budget-13">budget</a> at given times in the future. </p>
      <p> When invoked, it MUST run the following steps: </p>
      <ol>
       <li> Let <var>promise</var> be <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide#a-new-promise">a new promise</a>. 
@@ -1674,7 +1685,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
           If there are entries in <var>origin</var>’s <a data-link-type="dfn" href="#list-of-budget-expectations" id="ref-for-list-of-budget-expectations-1">list of budget expectations</a>, for each <var>entry</var>: 
          <ol>
           <li> Let <var>state</var> be a new <code><code class="idl"><a data-link-type="idl" href="#budgetstate" id="ref-for-budgetstate-3">BudgetState</a></code></code> instance. 
-          <li> Set <var>state</var>’s <code><code class="idl"><a data-link-type="idl" href="#dom-budgetstate-budgetat" id="ref-for-dom-budgetstate-budgetat-1">budgetAt</a></code></code> attribute to <var>entry</var>’s <a data-link-type="dfn" href="#budget" id="ref-for-budget-12">budget</a> value. 
+          <li> Set <var>state</var>’s <code><code class="idl"><a data-link-type="idl" href="#dom-budgetstate-budgetat" id="ref-for-dom-budgetstate-budgetat-1">budgetAt</a></code></code> attribute to <var>entry</var>’s <a data-link-type="dfn" href="#budget" id="ref-for-budget-14">budget</a> value. 
           <li> Set <var>state</var>’s <code><code class="idl"><a data-link-type="idl" href="#dom-budgetstate-time" id="ref-for-dom-budgetstate-time-1">time</a></code></code> attribute to the <code><code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#DOMTimeStamp">DOMTimeStamp</a></code></code> representing the final date of <var>entry</var>’s validity
                 in milliseconds since 00:00:00 UTC on 1 January 1970. 
           <li> Add <var>state</var> to <var>details</var>. 
@@ -1705,15 +1716,15 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li> Let <var>cost</var> be the <a data-link-type="dfn" href="#background-operation-cost" id="ref-for-background-operation-cost-5">background operation cost</a> associated with <var>operation</var>. 
         <li> If <var>cost</var> is greater than <var>budget</var>, resolve the <var>promise</var> with
             the boolean <code>false</code> and abort these steps. 
-        <li> <a data-link-type="dfn" href="#reserve-budget" id="ref-for-reserve-budget-2">Reserve</a> the <var>cost</var> from <var>origin</var>’s <a data-link-type="dfn" href="#budget" id="ref-for-budget-13">budget</a> and resolve the <var>promise</var> with the boolean <code>true</code>. 
+        <li> <a data-link-type="dfn" href="#reserve-budget" id="ref-for-reserve-budget-2">Reserve</a> the <var>cost</var> from <var>origin</var>’s <a data-link-type="dfn" href="#budget" id="ref-for-budget-15">budget</a> and resolve the <var>promise</var> with the boolean <code>true</code>. 
        </ol>
      </ol>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.3" id="budget-state-interface"><span class="secno">4.3. </span><span class="content">The <code class="idl"><a data-link-type="idl" href="#budgetstate" id="ref-for-budgetstate-5">BudgetState</a></code> interface</span><a class="self-link" href="#budget-state-interface"></a></h3>
-     <p> The <code><code class="idl"><a data-link-type="idl" href="#budgetstate" id="ref-for-budgetstate-6">BudgetState</a></code></code> interface represents the amount of <a data-link-type="dfn" href="#budget" id="ref-for-budget-14">budget</a> available at
+     <p> The <code><code class="idl"><a data-link-type="idl" href="#budgetstate" id="ref-for-budgetstate-6">BudgetState</a></code></code> interface represents the amount of <a data-link-type="dfn" href="#budget" id="ref-for-budget-16">budget</a> available at
       a specific point in time. This enables authors to make near-term decisions about how to spend
-      their <a data-link-type="dfn" href="#budget" id="ref-for-budget-15">budget</a>. </p>
+      their <a data-link-type="dfn" href="#budget" id="ref-for-budget-17">budget</a>. </p>
 <pre class="idl highlight def">[<a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed">Exposed</a>=(<span class="n">Window</span>,<span class="n">Worker</span>)]
 <span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="budgetstate">BudgetState</dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">double</span> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="double" href="#dom-budgetstate-budgetat" id="ref-for-dom-budgetstate-budgetat-3">budgetAt</a>;
@@ -1721,7 +1732,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 };
 </pre>
      <p> The <dfn class="dfn-paneled idl-code" data-dfn-for="BudgetState" data-dfn-type="attribute" data-export="" id="dom-budgetstate-budgetat"><code>budgetAt</code></dfn> attribute’s getter must
-      return the <a data-link-type="dfn" href="#budget" id="ref-for-budget-16">budget</a> at the associated <code><code class="idl"><a data-link-type="idl" href="#dom-budgetstate-time" id="ref-for-dom-budgetstate-time-4">time</a></code></code>. </p>
+      return the <a data-link-type="dfn" href="#budget" id="ref-for-budget-18">budget</a> at the associated <code><code class="idl"><a data-link-type="idl" href="#dom-budgetstate-time" id="ref-for-dom-budgetstate-time-4">time</a></code></code>. </p>
      <p> The <dfn class="dfn-paneled idl-code" data-dfn-for="BudgetState" data-dfn-type="attribute" data-export="" id="dom-budgetstate-time"><code>time</code></dfn> attribute’s getter must
       return the timestamp representing the time, in milliseconds since 00:00:00 UTC on 1 January
       1970, at which the <code><code class="idl"><a data-link-type="idl" href="#dom-budgetstate-budgetat" id="ref-for-dom-budgetstate-budgetat-4">budgetAt</a></code></code> will be valid. </p>
@@ -1729,7 +1740,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="4.4" id="operation-type-enum"><span class="secno">4.4. </span><span class="content">The <code class="idl"><a data-link-type="idl" href="#enumdef-operationtype" id="ref-for-enumdef-operationtype-3">OperationType</a></code> enum</span><a class="self-link" href="#operation-type-enum"></a></h3>
      <p> The <code><code class="idl"><a data-link-type="idl" href="#enumdef-operationtype" id="ref-for-enumdef-operationtype-4">OperationType</a></code></code> enumeration describes the known set of <a data-link-type="dfn" href="#background-operation" id="ref-for-background-operation-13">background
-      operations</a> that the Web Budget API caters for. Authors can use this in combination with <code><code class="idl"><a data-link-type="idl" href="#dom-budgetservice-getcost" id="ref-for-dom-budgetservice-getcost-3">getCost()</a></code></code> to interpret their available <a data-link-type="dfn" href="#budget" id="ref-for-budget-17">budget</a> as a
+      operations</a> that the Web Budget API caters for. Authors can use this in combination with <code><code class="idl"><a data-link-type="idl" href="#dom-budgetservice-getcost" id="ref-for-dom-budgetservice-getcost-3">getCost()</a></code></code> to interpret their available <a data-link-type="dfn" href="#budget" id="ref-for-budget-19">budget</a> as a
       quantifiable set of <a data-link-type="dfn" href="#background-operation" id="ref-for-background-operation-14">background operations</a> it can be used for. </p>
 <pre class="idl highlight def"><span class="kt">enum</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="enum" data-export="" id="enumdef-operationtype">OperationType</dfn> {
   <dfn class="s idl-code" data-dfn-for="OperationType" data-dfn-type="enum-value" data-export="" data-lt="&quot;silent-push&quot;|silent-push" id="dom-operationtype-silent-push">"silent-push"<a class="self-link" href="#dom-operationtype-silent-push"></a></dfn>
@@ -2065,9 +2076,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#ref-for-budget-3">1.1. Current budget</a>
     <li><a href="#ref-for-budget-4">1.2. Expected budget</a> <a href="#ref-for-budget-5">(2)</a> <a href="#ref-for-budget-6">(3)</a>
     <li><a href="#ref-for-budget-7">2. Concepts</a> <a href="#ref-for-budget-8">(2)</a> <a href="#ref-for-budget-9">(3)</a> <a href="#ref-for-budget-10">(4)</a>
-    <li><a href="#ref-for-budget-11">4.2. The BudgetService interface</a> <a href="#ref-for-budget-12">(2)</a> <a href="#ref-for-budget-13">(3)</a>
-    <li><a href="#ref-for-budget-14">4.3. The BudgetState interface</a> <a href="#ref-for-budget-15">(2)</a> <a href="#ref-for-budget-16">(3)</a>
-    <li><a href="#ref-for-budget-17">4.4. The OperationType enum</a>
+    <li><a href="#ref-for-budget-11">3.3. Private Browsing Mode</a> <a href="#ref-for-budget-12">(2)</a>
+    <li><a href="#ref-for-budget-13">4.2. The BudgetService interface</a> <a href="#ref-for-budget-14">(2)</a> <a href="#ref-for-budget-15">(3)</a>
+    <li><a href="#ref-for-budget-16">4.3. The BudgetState interface</a> <a href="#ref-for-budget-17">(2)</a> <a href="#ref-for-budget-18">(3)</a>
+    <li><a href="#ref-for-budget-19">4.4. The OperationType enum</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="list-of-budget-expectations">

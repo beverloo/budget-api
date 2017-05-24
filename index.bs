@@ -246,6 +246,22 @@ spec: webidl; urlPrefix: https://heycam.github.io/webidl/
       has explicitly allowed the Web Application to engage on their behalf.
     </p>
   </section>
+
+  <section>
+    <h3 id="private-browsing-mode">Private Browsing Mode</h3>
+    <p>
+      When the user agent is being operated in a private browsing mode, <a>budget</a> available in
+      the regular browsing mode SHOULD NOT be considered for the functionality provided by this API.
+      Normal accumulation of <a>budget</a> should otherwise commence.
+    </p>
+    <p>
+      Specifications depending on the Budget API SHOULD match this expectation by not inheriting
+      permissions, state or otherwise from the regular browsing mode in a private browsing mode.
+      This avoids the developer from being able to recognize that the user is in a private browsing
+      mode through the Budget API.
+    </p>
+  </section>
+
 </section>
 
 <section>
